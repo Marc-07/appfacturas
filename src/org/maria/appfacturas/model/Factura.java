@@ -10,7 +10,7 @@ public class Factura {
     private Cliente cliente;
     private ItemFactura[] items;
     private int indiceItems;
-    public static final int MAX_ITEMS = 10;
+    public static final int MAX_ITEMS = 12;
     private static int ultimoFolio;
 
     //Constructor
@@ -54,9 +54,35 @@ public class Factura {
         return items;
     }
 
-    public void addItemFactura(ItemFactura item){
-        if (indiceItems < MAX_ITEMS){
+    public void addItemFactura(ItemFactura item) {
+        if (indiceItems < MAX_ITEMS) {
             this.items[indiceItems++] = item;
         }
+    }
+
+    public float calcularTotal() {
+        float total = 0.0F;
+        for (ItemFactura item : this.items) {
+            if (item == null) {
+                continue;
+            }
+            total += item.calcularImporte();
+        }
+        return total;
+    }
+
+    public String generarDetalle() {
+        StringBuilder sb = new StringBuilder("Factura N°: ");
+        sb.append(folio)
+                .append("\nCliente: ")
+                .append(this.cliente.getNombre())
+                .append("\t NIT: ")
+                .append(cliente.getNit())
+                .append("\nDescripción: ")
+                .append((this.descripcion))
+                .append("\n")
+                .append("\n#\tNombre\t$\tCant.\tTotal\n");
+
+        return sb.toString();
     }
 }
